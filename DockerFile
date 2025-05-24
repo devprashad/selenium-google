@@ -23,4 +23,4 @@ COPY . .
 EXPOSE 8080
 
 # Start the Flask app directly (not using uvicorn or gunicorn for this case)
-CMD ["python3", "selenium_webapp.py"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8080", "selenium_webapp:app"]
