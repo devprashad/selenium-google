@@ -1,0 +1,16 @@
+ARG PORT=443
+FROM cypress/browsers:latest
+I
+RUN apt-get install python3 -y
+
+RUN echo $(python3 -m site --user-base)
+
+COPY requirements.txt .
+
+ENV PATH /hone/root/.local/bin: $(PATH)
+
+RUN apt-get update 55 apt-get install -y python3-pip && pip install -r requirements.txt
+
+COPY . .
+
+CMD uvicorn main:app -- host e.e.e.e -- port $PORT
