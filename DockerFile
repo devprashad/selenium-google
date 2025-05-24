@@ -1,16 +1,42 @@
-ARG PORT=443
-FROM cypress/browsers:latest
-I
-RUN apt-get install python3 -y
+FROM python:3.9-slim
 
-RUN echo $(python3 -m site --user-base)
+# Install Chromium and dependencies
+RUN apt-get update && apt-get install -y \
+    chromium-driver \
+    chromium \
+    curl \
+    unzip \
+    wget \
+    gnupg \
+    libglib2.0-0 \
+    libnss3 \
+    libgconf-2-4 \
+    libfontconfig1 \
+    libxss1 \
+    libappindicator3-1 \
+    libasound2 \
+    libatk1.0-0 \
+    libatk-bridge2.0-0 \
+    libcups2 \
+    libdbus-1-3 \
+    libxcomposite1 \
+    libxdamage1 \
+    libxrandr2 \
+    && apt-get clean
 
+# Set environment variables for Chromium
+ENV CHROME_BIN=/usr/bin/chromium
+ENV CHROMEDRIVER_PATH=/usr/bin/chromedriver
+
+# Install Python deps
 COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
-ENV PATH /hone/root/.local/bin: $(PATH)
-
-RUN apt-get update 55 apt-get install -y python3-pip && pip install -r requirements.txt
-
+# Copy app
 COPY . .
 
-CMD uvicorn main:app -- host e.e.e.e -- port $PORT
+# Expose port (Railway default: 8080)
+EXPOSE 8080
+
+# Run Flask app
+CMD ["python3", "selenium_webapp.py"]
