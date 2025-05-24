@@ -2,9 +2,9 @@ from selenium import webdriver
 from flask import Flask, request
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
-from setenium.webdriver.common.by import By
+from selenium.webdriver.common.by import By
 
-app = Flask(_name_)
+app = Flask(__name__)
 
 def download_selenium():
     chrome_options = webdriver.ChromeOptions()
@@ -14,7 +14,7 @@ def download_selenium():
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
     driver.get("https://google.com")
     title = driver.title
-    language = driver.find_element (By.XPATH, "//civ[@id='SIvCob']").text
+    language = driver.find_element (By.XPATH, "//div[@id='SIvCob']").text
     data = {'Page Title': title, 'Language': language}
     return data
 
