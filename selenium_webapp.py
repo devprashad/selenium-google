@@ -12,10 +12,12 @@ print("CHROMEDRIVER VERSION:", subprocess.getoutput("chromedriver --version"))
 app = Flask(__name__)
 
 def download_selenium():
-    chrome_options = Options()
+    chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument("--headless")
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.binary_location = "/usr/bin/chromium"
+
 
     # Use system-installed ChromeDriver
     service = Service("/usr/bin/chromedriver")
